@@ -1,23 +1,34 @@
 package main
-import "sort"
-
-func findContentChildren(g []int, s []int) int {
-    sort.Ints(g)
-    sort.Ints(s)
-    sPointer:=0
-    gPointer:=0
-    ans:=0
-    sLength:=len(s)
-    gLength:=len(g)
-    for sPointer<sLength && gPointer<gLength{
-        if g[gPointer]<=s[sPointer] {
-            ans+=1
-            sPointer+=1
+func canPlaceFlowers(flowerbed []int, n int) bool {
+    length := len(flowerbed)
+    possible:=0
+    if length>1{
+        if flowerbed[0]==0 && flowerbed[1]==0{
+            flowerbed[0] = 1
+            possible++
         }
-        gPointer+=1
+        if flowerbed[length-1]==0 && flowerbed[length-2]==0{
+            flowerbed[length-1] = 1
+            possible++
+        }
+        for i:=1;i<length-1;i++{
+            if flowerbed[i]==0 && flowerbed[i-1]==0 && flowerbed[i+1]==0{
+                flowerbed[i]=1
+                possible++
+            }
+        } 
+    } else if length==1{
+        if flowerbed[0]==0{
+            possible++
+        }
     }
-    return ans
+    if n > possible {
+        return false
+    }
+    return true
 }
+
+
 func main(){
-    
+
 }
