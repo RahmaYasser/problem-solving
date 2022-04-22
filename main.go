@@ -1,36 +1,20 @@
 package main
 
-import (
-	"fmt"
-)
-
-func canThreePartsEqualSum(arr []int) bool {
-    total := 0
-    
-    for _, v := range arr {
-        total += v
-    }
-    
-    if total % 3 != 0 {
-        return false
-    }
-    
-    target, part, count := total / 3, 0, 0
-    
-    for k, v := range arr {
-        part += v
-        if part == target {
-            part = 0
-            count++
-            if count == 2 && k != len(arr) - 1 {
-                return true
-            }
-        }
-    }
-    
-    return false
+func largestOddNumber(num string) string {
+	nums:="13579"
+	odd:=false
+	for i:=len(num)-1;i>=0;i--{
+		for j,_ := range nums{
+			if num[i]=='1' || num[i]=='3' || num[i]=='5' || num[i]=='7' || num[i]=='9'{
+				odd=true
+				break
+			}
+			if odd{
+				return num[:i+1]
+			}
+		}
+	}
+	return ""
 }
-// func main(){
-	
-// 	fmt.Println(minimumMoves("XXOX"))
-// }
+
+func main(){}
