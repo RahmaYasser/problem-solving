@@ -2,29 +2,35 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
-func convertTime(current string, correct string) int {
-	ans:=0
-    currentH,_:=strconv.Atoi(current[:2])
-    correctH,_:=strconv.Atoi(correct[:2])
-
-	currentM,_:=strconv.Atoi(current[3:])
-    correctM,_:=strconv.Atoi(correct[3:])
-
-	minut:=correctH*60+correctM - (currentH*60+currentM)
-
-	ans += minut/60
-	minut = minut%60
-	ans += minut/15
-	minut = minut%15
-	ans += minut/5
-	minut = minut%5
-	ans += minut
-	return ans
+func canThreePartsEqualSum(arr []int) bool {
+    total := 0
+    
+    for _, v := range arr {
+        total += v
+    }
+    
+    if total % 3 != 0 {
+        return false
+    }
+    
+    target, part, count := total / 3, 0, 0
+    
+    for k, v := range arr {
+        part += v
+        if part == target {
+            part = 0
+            count++
+            if count == 2 && k != len(arr) - 1 {
+                return true
+            }
+        }
+    }
+    
+    return false
 }
-func main(){
+// func main(){
 	
-	fmt.Println(convertTime("08:35","11:00"))
-}
+// 	fmt.Println(minimumMoves("XXOX"))
+// }
