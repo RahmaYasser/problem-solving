@@ -1,20 +1,21 @@
 package main
 
-func largestOddNumber(num string) string {
-	nums:="13579"
-	odd:=false
-	for i:=len(num)-1;i>=0;i--{
-		for j,_ := range nums{
-			if num[i]=='1' || num[i]=='3' || num[i]=='5' || num[i]=='7' || num[i]=='9'{
-				odd=true
-				break
-			}
-			if odd{
-				return num[:i+1]
-			}
+import (
+	"fmt"
+	"strconv"
+)
+func maximum69Number (num int) int {
+    str:=strconv.Itoa(num)
+	for i,_ :=range str {
+		if str[i]=='6'{
+			res:=str[:i]+"9"+str[i+1:]
+			num,_= strconv.Atoi(res)
+			break
 		}
 	}
-	return ""
+	return num
 }
 
-func main(){}
+func main(){
+	fmt.Println(maximum69Number(9669))
+}
