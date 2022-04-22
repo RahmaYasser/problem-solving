@@ -2,43 +2,32 @@ package main
 
 import "fmt"
 
-func validPalindrome(s string) bool {
-    if IsPalindrome(s) { return true }
-	l := 0;
-    h := len(s)-1;
-
-	
-    for(h > l){
-        if(s[l] != s[h]){
-			sSlice:=[]rune(s)
-			sSlice2:=[]rune(s)
-			newS:=append(sSlice[0:l], sSlice[l+1:]...)
-			if IsPalindrome(string(newS)){ return true} else { 
-				newS2:=append(sSlice2[0:h], sSlice2[h+1:]...)
-				if IsPalindrome(string(newS2)){ return true} else {
-					return false
-				}
+func lemonadeChange(bills []int) bool {
+	c5:=0
+	c10:=0
+    for _,cust:=range bills{
+		if cust==5{
+			c5++
+		}else if cust==10 {
+			if c5==0{ return false}
+			c10++
+			c5--
+		} else{
+			if c5==0{ return false}
+			if c10>0{
+				c10--
+				c5--
+			}else {
+				c5-=3
 			}
-        }
-		l++
-		h--
-    }
-	return false
-}
-
-func IsPalindrome(s string) bool {
-	l := 0;
-    h := len(s)-1;
-
-    for(h > l){
-        if(s[l] != s[h]){
+		}
+		if c5<0 || c10<0 {
 			return false
-        }
-		l++
-		h--
-    }
-	return true
+		}
+	}
+    return true
 }
 func main(){
-	fmt.Println(validPalindrome("abxaxcba"))
+	x := []int{10}
+	fmt.Println(lemonadeChange(x))
 }
