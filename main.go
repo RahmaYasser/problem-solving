@@ -1,20 +1,11 @@
 package main
 
-import (
-	"sort"
-)
-
 func singleNumber(nums []int) int {
-	nums = append(nums, 30005)
-	sort.Ints(nums)
-	for i := 0; i < len(nums); {
-		if nums[i] == nums[i+1] {
-			i += 2
-		} else {
-			return nums[i]
-		}
+	var result int
+	for i := 0; i < len(nums); i++ {
+		result ^= nums[i]
 	}
-	return -30005
+	return result
 }
 
 func main() {
