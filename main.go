@@ -8,26 +8,49 @@ import (
 /*
 1 1 1 2 2 3 3 3 3 3
 */
-func majorityElement(nums []int) int {
+func threeSum(nums []int) [][]int {
+	var res [][]int
+
+	if len(nums) < 3 {
+		return res
+	}
+
 	sort.Ints(nums)
-	var count = 1
-	length := len(nums)
-	for i := 1; i < length; i++ {
-		if nums[i-1] == nums[i] {
-			count++
-		} else {
-			if count > length/2 {
-				return nums[i-1]
+
+	for i := 0; i < len(nums)-2; i++ {
+		if i > 0 && nums[i] == nums[i-1] {
+			continue
+		}
+
+		left, right := i+1, len(nums)-1
+
+		for left < right {
+			target := nums[i] + nums[left] + nums[right]
+
+			if target == 0 {
+				res = append(res, []int{nums[i], nums[left], nums[right]})
+				left, right = left+1, right-1
+
+				for left < right && nums[left] == nums[left-1] {
+					left++
+				}
+
+				for left < right && nums[right] == nums[right+1] {
+					right--
+				}
+			} else if target > 0 {
+				right--
+			} else {
+				left++
 			}
-			count = 1
 		}
 	}
-	return nums[length-1]
-}
 
+	return res
+}
 func main() {
 	var nums = []int{10}
-	fmt.Println(majorityElement(nums))
+	fmt.Println(threeSum(nums))
 
 }
 
