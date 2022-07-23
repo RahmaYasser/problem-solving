@@ -1,21 +1,33 @@
 package main
 
 import (
-	"fmt"
-	"strconv"
+	"sort"
 )
-func maximum69Number (num int) int {
-    str:=strconv.Itoa(num)
-	for i,_ :=range str {
-		if str[i]=='6'{
-			res:=str[:i]+"9"+str[i+1:]
-			num,_= strconv.Atoi(res)
-			break
+
+func singleNumber(nums []int) int {
+	nums = append(nums, 30005)
+	sort.Ints(nums)
+	for i := 0; i < len(nums); {
+		if nums[i] == nums[i+1] {
+			i += 2
+		} else {
+			return nums[i]
 		}
 	}
-	return num
+	return -30005
 }
 
-func main(){
-	fmt.Println(maximum69Number(9669))
+func main() {
+	var nums = []int{2, 2, 5, 4, 4, 8, 8}
+	println(singleNumber(nums))
 }
+
+/*
+res		num
+0		2
+2		2
+0		5
+5		4		0101  01000 -> 1101
+9		4
+13		8
+*/
