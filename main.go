@@ -1,16 +1,34 @@
 package main
 
-func singleNumber(nums []int) int {
-	var result int
-	for i := 0; i < len(nums); i++ {
-		result ^= nums[i]
+import (
+	"fmt"
+	"sort"
+)
+
+/*
+1 1 1 2 2 3 3 3 3 3
+*/
+func majorityElement(nums []int) int {
+	sort.Ints(nums)
+	var count = 1
+	length := len(nums)
+	for i := 1; i < length; i++ {
+		if nums[i-1] == nums[i] {
+			count++
+		} else {
+			if count > length/2 {
+				return nums[i-1]
+			}
+			count = 1
+		}
 	}
-	return result
+	return nums[length-1]
 }
 
 func main() {
-	var nums = []int{2, 2, 5, 4, 4, 8, 8}
-	println(singleNumber(nums))
+	var nums = []int{10}
+	fmt.Println(majorityElement(nums))
+
 }
 
 /*
@@ -34,6 +52,12 @@ res		num
 ----
 0000
 0001
+----
+0001
+0011
+----
+0010
+0011
 ----
 0001
 */
