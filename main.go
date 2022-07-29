@@ -1,57 +1,41 @@
 package main
 
-import (
-	"fmt"
-	"sort"
-)
+import "fmt"
 
 /*
 1 1 1 2 2 3 3 3 3 3
 */
-func threeSum(nums []int) [][]int {
-	var res [][]int
-
-	if len(nums) < 3 {
-		return res
+func sortColors(nums []int) {
+	quickSort(0, len(nums)-1, nums)
+}
+func quickSort(low int, high int, arr []int) {
+	if low < high {
+		pivotIndex := partition(low, high, arr)
+		quickSort(low, pivotIndex-1, arr)
+		quickSort(pivotIndex+1, high, arr)
 	}
-
-	sort.Ints(nums)
-
-	for i := 0; i < len(nums)-2; i++ {
-		if i > 0 && nums[i] == nums[i-1] {
-			continue
-		}
-
-		left, right := i+1, len(nums)-1
-
-		for left < right {
-			target := nums[i] + nums[left] + nums[right]
-
-			if target == 0 {
-				res = append(res, []int{nums[i], nums[left], nums[right]})
-				left, right = left+1, right-1
-
-				for left < right && nums[left] == nums[left-1] {
-					left++
-				}
-
-				for left < right && nums[right] == nums[right+1] {
-					right--
-				}
-			} else if target > 0 {
-				right--
-			} else {
-				left++
-			}
+}
+func partition(low int, high int, arr []int) int {
+	pivot := arr[high]
+	i := low - 1
+	for j := low; j < high; j++ {
+		if arr[j] <= pivot {
+			i++
+			swap(i, j, arr)
 		}
 	}
-
-	return res
+	swap(i+1, high, arr)
+	return i + 1
+}
+func swap(i int, j int, arr []int) {
+	tmp := arr[i]
+	arr[i] = arr[j]
+	arr[j] = tmp
 }
 func main() {
-	var nums = []int{10}
-	fmt.Println(threeSum(nums))
-
+	var nums = []int{2, 0, 1}
+	sortColors(nums)
+	fmt.Println(nums)
 }
 
 /*
