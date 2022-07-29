@@ -21,16 +21,12 @@ func partition(low int, high int, arr []int) int {
 	for j := low; j < high; j++ {
 		if arr[j] <= pivot {
 			i++
-			swap(i, j, arr)
+			arr[i], arr[j] = arr[j], arr[i]
 		}
 	}
-	swap(i+1, high, arr)
+	//swap(i+1, high, arr)
+	arr[i+1], arr[high] = arr[high], arr[i+1]
 	return i + 1
-}
-func swap(i int, j int, arr []int) {
-	tmp := arr[i]
-	arr[i] = arr[j]
-	arr[j] = tmp
 }
 func main() {
 	var nums = []int{2, 0, 1}
