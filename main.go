@@ -1,18 +1,22 @@
 package main
 
-func searchMatrix(matrix [][]int, target int) bool {
-	m := len(matrix)
-	n := len(matrix[0])
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			if matrix[i][j] == target {
-				return true
-			}
-		}
-	}
-	return false
-}
+import "sort"
 
-func main() {
+func eraseOverlapIntervals(intervals [][]int) int {
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][1] < intervals[j][1]
+	})
+	res := 0
+	i := 0
+	for i < len(intervals) {
+		j := i + 1
+		for j < len(intervals) && intervals[i][1] > intervals[j][0] {
+			j++
+			res++
+		}
+		i = j
+	}
+	return res
+}func main() {
 
 }
