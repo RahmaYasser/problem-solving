@@ -17,6 +17,6 @@ func eraseOverlapIntervals(intervals [][]int) int {
 		i = j
 	}
 	return res
-}func main() {
-
+}
+func main() {
 }
