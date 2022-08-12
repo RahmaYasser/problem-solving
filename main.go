@@ -1,46 +1,23 @@
 package main
 
-import "math"
-
-func increasingTriplet(nums []int) bool {
-	var (
-		x        = math.MaxInt64
-		y        = math.MaxInt64
-		z        = math.MaxInt64
-		xChanged bool
-		yChanged bool
-		zChanged bool
-	)
-
-	for i := 0; i < len(nums); i++ {
-		if nums[i] < x || i == 0 {
-			x = nums[i]
-			xChanged = true
-			continue
-		}
-
-		if nums[i] > x && nums[i] < y {
-			y = nums[i]
-			yChanged = true
-			continue
-		}
-
-		if nums[i] > y && nums[i] < z {
-			z = nums[i]
-			zChanged = true
-		}
-
-		if xChanged && yChanged && zChanged {
-			return true
-		}
+func productExceptSelf(nums []int) []int {
+	size := len(nums)
+	prefix := make([]int, size)
+	suffix := make([]int, size)
+	prefix[0] = 1
+	suffix[size-1] = 1
+	for i := 1; i < size; i++ {
+		prefix[i] = prefix[i-1] * nums[i-1]
 	}
-
-	if xChanged && yChanged && zChanged {
-		return true
+	for i := size - 2; i >= 0; i-- {
+		suffix[i] = suffix[i+1] * nums[i+1]
 	}
-
-	return false
+	for i := 0; i < size; i++ {
+		nums[i] = suffix[i] * prefix[i]
+	}
+	return nums
 }
 func main() {
-
+	nums := []int{1, 2, 3, 4}
+	productExceptSelf(nums)
 }
