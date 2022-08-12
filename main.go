@@ -1,16 +1,14 @@
 package main
 
 func subarraySum(nums []int, k int) int {
-	n := len(nums)
+	m := make(map[int]int)
+	m[0] = 1 // sum to 0 will always be here
+	sum := 0
 	ans := 0
-	for i := 0; i < n; i++ {
-		sum := 0
-		for j := i; j < n; j++ {
-			sum += nums[j]
-			if sum == k {
-				ans++
-			}
-		}
+	for _, v := range nums {
+		sum += v
+		ans += m[sum-k]
+		m[sum]++
 	}
 	return ans
 }
