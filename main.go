@@ -2,20 +2,18 @@ package main
 
 func productExceptSelf(nums []int) []int {
 	size := len(nums)
-	prefix := make([]int, size)
-	suffix := make([]int, size)
-	prefix[0] = 1
-	suffix[size-1] = 1
-	for i := 1; i < size; i++ {
-		prefix[i] = prefix[i-1] * nums[i-1]
-	}
-	for i := size - 2; i >= 0; i-- {
-		suffix[i] = suffix[i+1] * nums[i+1]
-	}
+	prefix := 1
+	ans := make([]int, size)
 	for i := 0; i < size; i++ {
-		nums[i] = suffix[i] * prefix[i]
+		ans[i] = prefix
+		prefix *= nums[i]
 	}
-	return nums
+	prefix = 1
+	for i := size - 1; i >= 0; i-- {
+		ans[i] = prefix
+		prefix *= nums[i]
+	}
+	return ans
 }
 func main() {
 	nums := []int{1, 2, 3, 4}
