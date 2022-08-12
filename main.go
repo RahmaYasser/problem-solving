@@ -1,22 +1,46 @@
 package main
 
-import "sort"
+import "math"
 
-func eraseOverlapIntervals(intervals [][]int) int {
-	sort.Slice(intervals, func(i, j int) bool {
-		return intervals[i][1] < intervals[j][1]
-	})
-	res := 0
-	i := 0
-	for i < len(intervals) {
-		j := i + 1
-		for j < len(intervals) && intervals[i][1] > intervals[j][0] {
-			j++
-			res++
+func increasingTriplet(nums []int) bool {
+	var (
+		x        = math.MaxInt64
+		y        = math.MaxInt64
+		z        = math.MaxInt64
+		xChanged bool
+		yChanged bool
+		zChanged bool
+	)
+
+	for i := 0; i < len(nums); i++ {
+		if nums[i] < x || i == 0 {
+			x = nums[i]
+			xChanged = true
+			continue
 		}
-		i = j
+
+		if nums[i] > x && nums[i] < y {
+			y = nums[i]
+			yChanged = true
+			continue
+		}
+
+		if nums[i] > y && nums[i] < z {
+			z = nums[i]
+			zChanged = true
+		}
+
+		if xChanged && yChanged && zChanged {
+			return true
+		}
 	}
-	return res
+
+	if xChanged && yChanged && zChanged {
+		return true
+	}
+
+	return false
 }
 func main() {
+
 }
