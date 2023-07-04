@@ -1,0 +1,3 @@
+C:/Users/Administrator/CLionProjects/problem-solving/cmake-build-debug/CMakeFiles/problem_solving_tmp.dir
+C:/Users/Administrator/CLionProjects/problem-solving/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Administrator/CLionProjects/problem-solving/cmake-build-debug/CMakeFiles/rebuild_cache.dir
