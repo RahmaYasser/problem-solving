@@ -2,17 +2,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int minStartValue(vector<int>& nums) {
-    int mini=1000,sum=0;
-    for(auto n:nums){
-        sum+=n;
-        if(sum<mini){
-            mini=sum;
-        }
+int findMiddleIndex(vector<int>& nums) {
+    vector<int> prefixSum(nums.size()+1,0);
+    for(int i=1;i<prefixSum.size();i++){
+        prefixSum[i] = nums[i-1]+prefixSum[i-1];
     }
-    mini=1-mini;
-    if(mini<1)return 1;
-    return mini;
+    //if(prefixSum[0] == prefixSum[prefixSum.size()-1]-prefixSum[1])return 0;
+    for(int i=1;i<prefixSum.size();i++){
+        if(prefixSum[i-1]==prefixSum[prefixSum.size()-1]-prefixSum[i])return i-1;
+    }
+    return -1;
 }
 int main() {
     cout <<"SOLVING ON LEETCODE";
