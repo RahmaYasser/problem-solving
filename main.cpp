@@ -1,19 +1,18 @@
 #include <iostream>
 #include <bits/stdc++.h>
 using namespace std;
-bool isCovered(vector<vector<int>>& ranges, int left, int right) {
-    vector<int> rangedSum(52,0);
-    for(auto r:ranges){
-        rangedSum[r[0]]++;
-        rangedSum[r[1]+1]--;
+
+int minStartValue(vector<int>& nums) {
+    int mini=1000,sum=0;
+    for(auto n:nums){
+        sum+=n;
+        if(sum<mini){
+            mini=sum;
+        }
     }
-    for(int i=1;i<rangedSum.size();i++){
-        rangedSum[i]+=rangedSum[i-1];
-    }
-    for(int i=left;i<=right;i++){
-        if(!rangedSum[i])return false;
-    }
-    return true;
+    mini=1-mini;
+    if(mini<1)return 1;
+    return mini;
 }
 int main() {
     cout <<"SOLVING ON LEETCODE";
