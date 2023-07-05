@@ -2,13 +2,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int largestAltitude(vector<int>& gain) {
-    int sum=0,max=0;
-    for(auto g:gain){
-        sum+=g;
-        if(sum>max)max=sum;
+int pivotInteger(int n) {
+    int sum = n*(n+1)/2;
+    for(int i=1;i<=n;i++){
+        if(i*(i+1)/2==sum-((i-1)*i)/2)return i;
     }
-    return max;
+    return -1;
 }
 int main() {
     cout <<"SOLVING ON LEETCODE";
