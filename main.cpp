@@ -2,21 +2,25 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> leftRightDifference(vector<int>& nums) {
-    int l=nums.size();
-    int prefixSum[l];
-    vector<int>answer(l);
-    prefixSum[0]=nums[0];
-    for(int i=1;i<l;i++){
-        prefixSum[i]=nums[i]+prefixSum[i-1];
+int minSubArrayLen(int target, vector<int>& nums) {
+    int miniLength=1e6,st=0,end=0,sum=nums[0],l;
+    while(st<nums.size()&&end<nums.size()){
+        if(sum<target){
+            end++;
+            if(end<nums.size())sum+=nums[end];
+        }
+        else {
+            l=end-st+1;
+            if(l<miniLength)miniLength = l;
+            sum-=nums[st];
+            st++;
+        }
     }
-    answer[0] = abs(prefixSum[l-1]-prefixSum[0]);
-    for(int i=1;i<l;i++){
-        answer[i] = abs(prefixSum[i-1]-(prefixSum[l-1]-prefixSum[i]));
-    }
-    return answer;
+    if(miniLength==1e6)return 0;else return miniLength;
 }
 int main() {
-    cout <<"SOLVING ON LEETCODE";
+    cout <<"SOLVING ON LEETCODE\n";
+    int miniLength=1e6;
+    cout << miniLength;
     return 0;
 }
