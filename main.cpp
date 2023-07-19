@@ -2,25 +2,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int minSubArrayLen(int target, vector<int>& nums) {
-    int miniLength=1e6,st=0,end=0,sum=nums[0],l;
-    while(st<nums.size()&&end<nums.size()){
-        if(sum<target){
-            end++;
-            if(end<nums.size())sum+=nums[end];
+bool checkSubarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int> mp{{0, 0}};
+        int sum = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            sum += nums[i];
+            if (!mp.count(sum % k))
+                mp[sum % k] = i + 1;
+            else if (mp[sum % k] < i)
+                return true;
         }
-        else {
-            l=end-st+1;
-            if(l<miniLength)miniLength = l;
-            sum-=nums[st];
-            st++;
-        }
-    }
-    if(miniLength==1e6)return 0;else return miniLength;
+        return false;
 }
 int main() {
     cout <<"SOLVING ON LEETCODE\n";
-    int miniLength=1e6;
-    cout << miniLength;
     return 0;
 }
