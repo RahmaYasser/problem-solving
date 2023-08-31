@@ -1,17 +1,15 @@
 #include <iostream>
 #include <bits/stdc++.h>
 using namespace std;
-int maximumToys(vector<int> prices, int k) {
-    int count=0;
-    sort(prices.begin(),prices.end());
-    for(auto p:prices){
-        if(p<=k){
-            count++;
-            k-=p;
-        }
-        else break;
+vector<int> rotLeft(vector<int> a, int d) {
+    int n=a.size();
+    if(d==n)return a;
+    vector<int> out = a;
+    for(int i=0;i<n;i++){
+        if(i<d)out[i-d+n]=a[i];
+        else out[i-d]=a[i];
     }
-    return count;
+    return out;
 }
 
 int main() {
