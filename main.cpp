@@ -1,21 +1,20 @@
 #include <iostream>
 #include <bits/stdc++.h>
 using namespace std;
-
-bool checkSubarraySum(vector<int>& nums, int k) {
-        unordered_map<int, int> mp{{0, 0}};
-        int sum = 0;
-        for (int i = 0; i < nums.size(); i++) {
-            sum += nums[i];
-            if (!mp.count(sum % k))
-
-                mp[sum % k] = i + 1;
-            else if (mp[sum % k] < i)
-                return true;
+int maximumToys(vector<int> prices, int k) {
+    int count=0;
+    sort(prices.begin(),prices.end());
+    for(auto p:prices){
+        if(p<=k){
+            count++;
+            k-=p;
         }
-        return false;
+        else break;
+    }
+    return count;
 }
+
 int main() {
-    cout <<"SOLVING ON LEETCODE\n";
+
     return 0;
 }
