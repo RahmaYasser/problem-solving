@@ -21,6 +21,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c00ebbac-873b-4a8c-beea-3e12ada7cfef" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/problem_solving_tmp.dir/main.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/problem_solving_tmp.dir/main.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/problem_solving_tmp.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/problem_solving_tmp.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +100,20 @@
       <workItem from="1691785649996" duration="325000" />
       <workItem from="1693157860632" duration="26000" />
       <workItem from="1693157900853" duration="643000" />
-      <workItem from="1693515207156" duration="813000" />
+      <workItem from="1693515207156" duration="9648000" />
+      <workItem from="1693570461390" duration="1759000" />
+      <workItem from="1693659198635" duration="879000" />
+      <workItem from="1693922162949" duration="8264000" />
+      <workItem from="1694102505361" duration="7715000" />
+      <workItem from="1694170987874" duration="4903000" />
+      <workItem from="1694259006667" duration="2495000" />
+      <workItem from="1694536129582" duration="5324000" />
+      <workItem from="1694614328606" duration="731000" />
+      <workItem from="1694691463666" duration="1904000" />
+      <workItem from="1695226998526" duration="316000" />
+      <workItem from="1695300224708" duration="3000" />
+      <workItem from="1695463812210" duration="2635000" />
+      <workItem from="1695633312285" duration="6133000" />
     </task>
     <servers />
   </component>
