@@ -3,47 +3,38 @@
 typedef long long ll;
 using namespace std;
 
-int binarySearch(int target,vector<int>&primes){
-    int st=0,end=78499,mid;
-    while(st<end){
-        mid=st+(end-st+1)/2;
-        if(primes[mid]==target)return mid;
-        if(primes[mid]>target)end=mid-1;
-        else st=mid;
-    }
-    return end;
+
+int GCD(int a,int b){
+    if(a==0&&b!=0)return b;
+    if(b==0)return a;
+    if(a==b)return a;
+    if(a>b)return GCD(a-b,b);
+    else return GCD(a,b-a);
+}
+int power(int base,int p){
+    if(p==0)return 1;
+    int ans=power(base,p>>1);
+    if(p%2==0)return ans*ans;
+    else return ans*ans*base;
 }
 int main(){
-    int MAX_N=1000009;
-    int n,t;
-    cin >>t;
-    vector<bool>isPrime(MAX_N,true);
-    vector<int>primes;
-    isPrime[0]=isPrime[1]=false;
-    for(int i=2;i*i<=MAX_N;i++){
-        if(isPrime[i]){
-            for(int y=i+i;y<MAX_N;y+=i){
-                isPrime[y]=false;
-            }
-        }
-    }
-    for(int i=2;i<isPrime.size();i++){
-        if(isPrime[i])primes.push_back(i);
-    }
-    vector<ll>prefixSum(primes.size());
-    prefixSum[0]=2;
-    for(int i=1;i<primes.size();i++){
-        prefixSum[i]=primes[i]+prefixSum[i-1];
-    }
-    while(t--) {
-        cin >> n;
-        if(n==1)cout <<0;
-        else{
-            n= binarySearch(n,primes);
-            cout <<prefixSum[n]<<"\n";
-        }
-    }
+    int n,m;
+    cin >>n>>m;
+    cout << GCD(n,m);
     return 0;
 }
 
-
+int gcd(int a, int b){
+    while (a > 0 && b > 0) {
+        if (a > b) {
+            a = a % b;
+        }
+        else {
+            b = b % a;
+        }
+    }
+    if (a == 0) {
+        return b;
+    }
+    return a;
+}
