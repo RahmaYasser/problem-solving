@@ -3,57 +3,47 @@
 typedef long long ll;
 using namespace std;
 
-int EuclideanGCD(int a,int b){
-    if(a==0&&b!=0)return b;
-    if(b==0)return a;
-    if(a==b)return a;
-    if(a>b)return EuclideanGCD(a-b,b);
-    else return EuclideanGCD(a,b-a);
-}
-int power(int base,int p){
-    if(p==0)return 1;
-    int ans=power(base,p>>1);
-    if(p%2==0)return ans*ans;
-    else return ans*ans*base;
-}
-int gcdModRecursive(int min,int max){
-    if(min==0)return max;
-    return gcdModRecursive(max%min,min);
-}
-int main(){
-    int t,n,lcm,gcd,mn,mx;
-    cin>>t;
-    while(t--){
-        cin >>n;
-        lcm=1;
-        for(int i=2;i<=n;i++){
-            // lcm=6 i=4
-            if(i<lcm){
-                mn=i;
-                mx=lcm;
-            }else{
-                mn=lcm;
-                mx=i;
-            }
-            gcd=gcdModRecursive(mn,mx);
-            lcm = lcm*i/gcd;
+
+// check if it's a tree
+/*
+ * 1. edges=nodes-1
+ * 2. one connected component -> flood fill then check if all nodes are visited
+ * 3. no cycles -> can be verified from 1, and visited array
+ */
+
+void dfs(vector<vector<int>> &adj,int currentNode,vector<bool>&visited){
+    visited[currentNode]=true;
+    for(int i=0;i<adj[currentNode].size();i++){
+        int child=adj[currentNode][i];
+        if(!visited[child]){
+            dfs(adj,child,visited);
         }
-        cout <<lcm<<"\n";
     }
-    return 0;
 }
 
-int gcd(int a, int b){
-    while (a > 0 && b > 0) {
-        if (a > b) {
-            a = a % b;
-        }
-        else {
-            b = b % a;
-        }
+int main(){
+    int n,m,u,v;
+    cin>>n>>m;
+    if(m!=n-1) {
+        cout << "NO\n";
     }
-    if (a == 0) {
-        return b;
+    else{
+        vector<vector<int>>adj(n+1);
+        vector<bool>visited(n+1,false);
+        visited[0]=true;
+        for(int i=0;i<m;i++){
+            cin >> u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        dfs(adj,adj[u][0],visited);
+        for(auto bitReference:visited){
+            if(!bitReference){
+                cout << "NO";
+                return 0;
+            }
+        }
+        cout <<"YES";
     }
-    return a;
+    return 0;
 }
