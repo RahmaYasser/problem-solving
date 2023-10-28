@@ -2,48 +2,62 @@
 #include <bits/stdc++.h>
 typedef long long ll;
 using namespace std;
-
-
-// check if it's a tree
 /*
- * 1. edges=nodes-1
- * 2. one connected component -> flood fill then check if all nodes are visited
- * 3. no cycles -> can be verified from 1, and visited array
+ * Is bipartite graph?
+ * 1. color the src node
+ * 2. traverse to children to mark with opposite color
+ * 3. if any child is already colored with the same color as parent, return false
+ * 4. return true if all graph is traversed
+ * 5. note that, call bfs for each connected component
  */
 
-void dfs(vector<vector<int>> &adj,int currentNode,vector<bool>&visited){
-    visited[currentNode]=true;
-    for(int i=0;i<adj[currentNode].size();i++){
-        int child=adj[currentNode][i];
-        if(!visited[child]){
-            dfs(adj,child,visited);
-        }
-    }
-}
 
-int main(){
-    int n,m,u,v;
-    cin>>n>>m;
-    if(m!=n-1) {
-        cout << "NO\n";
-    }
-    else{
-        vector<vector<int>>adj(n+1);
-        vector<bool>visited(n+1,false);
-        visited[0]=true;
-        for(int i=0;i<m;i++){
-            cin >> u>>v;
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
-        dfs(adj,adj[u][0],visited);
-        for(auto bitReference:visited){
-            if(!bitReference){
-                cout << "NO";
-                return 0;
+
+bool isBipartite(vector<vector<int>>&adj,vector<int>&colors,int start){
+    queue<int> q;
+    q.push(start);
+    colors[start]=1;
+    int current,child;
+    while(!q.empty()){
+        current=q.front();
+        q.pop();
+        for(int i=0;i<adj[current].size();i++){
+            child=adj[current][i];
+            if(colors[child]==0){
+                colors[child]=-colors[current];
+                q.push(child);
+            }
+            else{
+                if(colors[child]==colors[current])return false;
             }
         }
-        cout <<"YES";
+    }
+    return true;
+}
+int main(){
+    int t,n,e,x,y;
+    cin>>t;
+    for(int o=1;o<=t;o++){
+        cin>>n>>e;
+        vector<vector<int>>adj(n+1);
+        vector<int>colors(n+1,0);// not colored
+        for(int i=0;i<e;i++){
+            cin>>x>>y;
+            adj[x].push_back(y);
+            adj[y].push_back(x);
+        }
+        cout <<"Scenario #"<<o<<":\n";
+        bool bipartite=true;
+        for(int i=1;i<=n;i++){
+            if(colors[i]==0){
+                if(!isBipartite(adj,colors,i)){
+                    bipartite=false;
+                    break;
+                }
+            }
+        }
+        if(bipartite)cout <<"No suspicious bugs found!\n" ;
+        else cout <<"Suspicious bugs found!\n";
     }
     return 0;
 }
