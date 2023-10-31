@@ -72,8 +72,13 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\CLionProjects\problem-solving\cmake-build-debug" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration name="problem_solving_tmp" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="problem_solving_tmp" TARGET_NAME="problem_solving_tmp" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="problem_solving_tmp" RUN_TARGET_NAME="problem_solving_tmp">
+    <configuration name="problem_solving_tmp" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="input.txt" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="problem_solving_tmp" TARGET_NAME="problem_solving_tmp" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="problem_solving_tmp" RUN_TARGET_NAME="problem_solving_tmp">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -122,7 +127,9 @@
       <workItem from="1698245041328" duration="4044000" />
       <workItem from="1698264542805" duration="1839000" />
       <workItem from="1698341225789" duration="6325000" />
-      <workItem from="1698410540713" duration="10513000" />
+      <workItem from="1698410540713" duration="19898000" />
+      <workItem from="1698735877702" duration="4000" />
+      <workItem from="1698736375701" duration="6860000" />
     </task>
     <servers />
   </component>
@@ -134,8 +141,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>15</line>
-          <option name="timeStamp" value="11" />
+          <line>10</line>
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
