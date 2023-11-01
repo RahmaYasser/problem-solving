@@ -2,47 +2,35 @@
 #include <bits/stdc++.h>
 typedef long long ll;
 using namespace std;
-
+#define FOR( i, S, E ) for(int i=(int)S ; i<=(int)E ; i++ )
 /*
- * count number of connected components
+ * codeforces D. Road Map
  */
 
-void bfs(vector<vector<int>>&adj,vector<bool>&visited,int start){
-    visited[start]=true;
-    int current;
-    queue<int>q;
-    q.push(start);
-    while(!q.empty()){
-        current=q.front();
-        q.pop();
-        for(int i : adj[current]){
-            if(!visited[i]){
-                visited[i]=true;
-                q.push(i);
-            }
+void dfs(vector< vector<int> > &adj,int current, int parent, vector<int> &p){
+    p[current] = parent;
+    for(auto child : adj[current]){
+        if(p[child]==-1){
+            dfs(adj,child,current,p);
         }
     }
-
 }
 
 int main(){
-    int n,node,count=0;
-    cin>>n;
-    vector<bool>visited(n+1);
-    vector<vector<int>> adj(n+1);
-
-    for(int i=1;i<=n;i++){
-        cin >> node;
-        adj[i].push_back(node);
-        adj[node].push_back(i);
-    }
-    for(int i=1;i<=n;i++){
-        if(!visited[i]){
-            count++;
-            bfs(adj,visited,i);
+    int n,r1,r2,node;
+    cin>>n>>r1>>r2;
+    vector< vector<int> > adj(n+1);
+    vector<int> p(n+1,-1); // from 1 to n needed
+    FOR(i,1,n){
+        if(i!=r1){
+            cin >> node;
+            adj[i].push_back(node);
+            adj[node].push_back(i);
         }
     }
-    cout <<count;
-
+    dfs(adj,r2,-1,p);
+    FOR(i,1,n){
+        if(i!=r2) cout <<p[i]<<" ";
+    }
     return 0;
 }
