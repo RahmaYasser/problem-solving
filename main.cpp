@@ -4,33 +4,38 @@ typedef long long ll;
 using namespace std;
 #define FOR( i, S, E ) for(int i=(int)S ; i<=(int)E ; i++ )
 /*
- * codeforces D. Road Map
+ * codeforces C. Mail stamps
+ * get leaf node in undirected graph, then traverse the graph from this node as start point
  */
 
-void dfs(vector< vector<int> > &adj,int current, int parent, vector<int> &p){
-    p[current] = parent;
+void dfs(int current,map<int,vector<int>>&adj,map<int,bool> &visited){
+    visited[current]=true;
+    cout << current<<" ";
     for(auto child : adj[current]){
-        if(p[child]==-1){
-            dfs(adj,child,current,p);
+        if(!visited[child]){
+            dfs(child,adj,visited);
         }
     }
 }
-
 int main(){
-    int n,r1,r2,node;
-    cin>>n>>r1>>r2;
-    vector< vector<int> > adj(n+1);
-    vector<int> p(n+1,-1); // from 1 to n needed
+    int n,x,y,leaf=-1;
+    cin>>n;
+    map<int,vector<int>> adj;
+    map<int,bool> visited;
+
     FOR(i,1,n){
-        if(i!=r1){
-            cin >> node;
-            adj[i].push_back(node);
-            adj[node].push_back(i);
+        cin >>x>>y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+        visited[x]=false;
+        visited[y]=false;
+    }
+    for(auto it:adj){
+        if(it.second.size()==1){
+            leaf=it.first;
+            break;
         }
     }
-    dfs(adj,r2,-1,p);
-    FOR(i,1,n){
-        if(i!=r2) cout <<p[i]<<" ";
-    }
+    dfs(leaf,adj,visited);
     return 0;
 }
