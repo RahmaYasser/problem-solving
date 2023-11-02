@@ -4,38 +4,60 @@ typedef long long ll;
 using namespace std;
 #define FOR( i, S, E ) for(int i=(int)S ; i<=(int)E ; i++ )
 /*
- * codeforces C. Mail stamps
- * get leaf node in undirected graph, then traverse the graph from this node as start point
+ * pick up sticks UVA
+ * idea: check if directed graph has a cycle
  */
 
-void dfs(int current,map<int,vector<int>>&adj,map<int,bool> &visited){
-    visited[current]=true;
-    cout << current<<" ";
-    for(auto child : adj[current]){
-        if(!visited[child]){
-            dfs(child,adj,visited);
+stack<int> ans;
+// return true if solution is possible (there is no cycle), false if there is a cycle
+bool dfs(vector<vector<int>> &adj,vector<int> &visited,int node){
+    visited[node]=1;
+    int child;
+    bool possible=true;
+    FOR(i,0,adj[node].size()-1){
+        child = adj[node][i];
+
+        if(visited[child]==0){
+             possible=possible&&dfs(adj,visited,child);
+        }
+        else if (visited[child]==1){
+            return false;
         }
     }
+    visited[node]=-1;
+    ans.push(node);
+
+    return possible;
 }
 int main(){
-    int n,x,y,leaf=-1;
-    cin>>n;
-    map<int,vector<int>> adj;
-    map<int,bool> visited;
+    int n,m,x,y;
 
-    FOR(i,1,n){
-        cin >>x>>y;
-        adj[x].push_back(y);
-        adj[y].push_back(x);
-        visited[x]=false;
-        visited[y]=false;
-    }
-    for(auto it:adj){
-        if(it.second.size()==1){
-            leaf=it.first;
-            break;
+    while (scanf("%d %d", &n, &m) && (n || m)) {
+        while(!ans.empty())ans.pop();
+        vector<vector<int>> adj(n+1);
+        vector<int>visited(n+1,0);
+        while (m--) {
+            scanf("%d %d", &x, &y);
+            adj[x].push_back(y);
+        }
+        bool possible=true;
+        FOR(i,1,n){
+            if(visited[i]==0){
+                if(!dfs(adj,visited,i)){
+                    possible=false;
+                    break;
+                }
+            }
+        }
+        if(!possible){
+            cout <<"IMPOSSIBLE"<<"\n";
+        }
+        else{
+            while(!ans.empty()){
+                cout << ans.top()<<"\n";
+                ans.pop();
+            }
         }
     }
-    dfs(leaf,adj,visited);
     return 0;
 }
