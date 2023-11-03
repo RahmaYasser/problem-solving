@@ -3,61 +3,37 @@
 typedef long long ll;
 using namespace std;
 #define FOR( i, S, E ) for(int i=(int)S ; i<=(int)E ; i++ )
-/*
- * pick up sticks UVA
- * idea: check if directed graph has a cycle
- */
 
-stack<int> ans;
-// return true if solution is possible (there is no cycle), false if there is a cycle
-bool dfs(vector<vector<int>> &adj,vector<int> &visited,int node){
-    visited[node]=1;
+// distant path of a tree
+int ans;
+void dfs(vector<vector<int>> &adj,int parent,int node,int count,int & mx,int &distantNode) {
+    if (count > mx) {
+        mx = count;
+        distantNode = node;
+        ans=count;
+    }
     int child;
-    bool possible=true;
-    FOR(i,0,adj[node].size()-1){
+    FOR(i, 0, adj[node].size() - 1) {
         child = adj[node][i];
-
-        if(visited[child]==0){
-             possible=possible&&dfs(adj,visited,child);
-        }
-        else if (visited[child]==1){
-            return false;
+        if (child != parent) {
+            dfs(adj, node, child, count + 1, mx, distantNode);
         }
     }
-    visited[node]=-1;
-    ans.push(node);
-
-    return possible;
 }
 int main(){
-    int n,m,x,y;
-
-    while (scanf("%d %d", &n, &m) && (n || m)) {
-        while(!ans.empty())ans.pop();
-        vector<vector<int>> adj(n+1);
-        vector<int>visited(n+1,0);
-        while (m--) {
-            scanf("%d %d", &x, &y);
-            adj[x].push_back(y);
-        }
-        bool possible=true;
-        FOR(i,1,n){
-            if(visited[i]==0){
-                if(!dfs(adj,visited,i)){
-                    possible=false;
-                    break;
-                }
-            }
-        }
-        if(!possible){
-            cout <<"IMPOSSIBLE"<<"\n";
-        }
-        else{
-            while(!ans.empty()){
-                cout << ans.top()<<"\n";
-                ans.pop();
-            }
-        }
+    int n,x,y;
+    cin >>n;
+    vector<vector<int>> adj(n+1);
+    vector<bool> visited(n+1,false);
+    FOR(i,1,n-1){
+        cin >> x>>y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
     }
+    int mx=-1,distantNode;
+    dfs(adj,-1,x,1,mx,distantNode);
+    mx=-1;
+    dfs(adj,-1,distantNode,1,mx,distantNode);
+    cout <<ans-1<<"\n";
     return 0;
 }
