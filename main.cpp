@@ -21,6 +21,7 @@ bool valid(int r, int c,int R,int C, vector<vector<char>> &grid){
     return r>=0 && r<R && c>=0 && c<C && grid[r][c]=='.';
 }
 
+// count has to be passed by reference, backtracking counts for each visited node, not for each visited path
 void dfs(int x,int y,int n,int m, vector<vector<char>> &grid,int &count){
     if(count==0)return;
     count--;
