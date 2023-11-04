@@ -5,60 +5,78 @@ using namespace std;
 #define FOR( i, S, E ) for(int i=(int)S ; i<=(int)E ; i++ )
 
 /*
- * bfs,
- * node is pair representing coordinates,
- * start point is queue of points that should start simultaneously ,
- * solution is to find the latest traversed node for the graph
+ * MAZE codeforces 377 A
+ * 1. get the number of nodes of the connected component that we want to keep
+ * 2. mark them with different character (e,g. *)
+ * 3. mark the rest to be x
+ * 4. remark * with .
+ *
+ *
 */
 int dirR[4]={1,-1,0,0};
 int dirC[4]={0,0,1,-1};
 
 // if child can be visited, return true
-bool valid(int r, int c,int R,int C,vector<vector<bool>> &graph){
-    return r>0 && r<=R && c>0 && c<=C && !graph[r][c];
+bool valid(int r, int c,int R,int C, vector<vector<char>> &grid){
+    return r>=0 && r<R && c>=0 && c<C && grid[r][c]=='.';
 }
-void bfs(vector<vector<bool>> &graph,pair<int,int> &latestNode,queue<pair<int,int>>&startPoints, int n,int m){
-    queue <pair<int,int>> q;
-    pair<int,int> node;
-    int x,y;
-    while(!startPoints.empty()){
-        node=startPoints.front();
-        startPoints.pop();
-        graph[node.first][node.second]=true;
-        q.push(node);
-    }
-    while(!q.empty()){
-        node=q.front();
-        latestNode=node;
-        q.pop();
-        FOR(i,0,3){
-            x = node.first+dirR[i];
-            y = node.second+dirC[i];
-            if(valid(x,y,n,m,graph)){
-                graph[x][y]=true;
-                q.push({x,y});
-            }
+
+void dfs(int x,int y,int n,int m, vector<vector<char>> &grid,int &count){
+    if(count==0)return;
+    count--;
+    grid[x][y] = '*';
+    int childX,childY;
+    FOR(i,0,3){
+        childX=x+dirR[i];
+        childY=y+dirC[i];
+        if(valid(childX,childY,n,m,grid)){
+            dfs(childX,childY,n,m,grid,count);
         }
     }
 }
+
 int main(){
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    int n,m,k,x,y;
+    int n,m,k;
     cin >>n>>m>>k;
-    vector<vector<bool>> graph;
-    queue<pair<int,int>>startPoints;
-    while(k--){
-        cin >>x>>y;
-        startPoints.push({x,y});
+    vector<vector<char>> grid;
+    // init
+    FOR(i,0,n-1){
+        vector<char> v(m);
+        grid.push_back(v);
     }
-    FOR(i,0,n){
-        vector<bool> x(m+1,false);
-        graph.push_back(x);
+    int x,y,count=0; // starting point
+    char c;
+    FOR(i,0,n-1){
+        FOR(j,0,m-1){
+            cin >>c;
+            if(c=='.'){
+                count++;
+                x=i;y=j;
+            }
+            grid[i][j]=c;
+        }
     }
-    pair<int,int> latestNode;
-    bfs(graph,latestNode,startPoints,n,m);
-    cout << latestNode.first << " " << latestNode.second;
+    count=count-k; // number of nodes to keep (mark with *)
+    dfs(x,y,n,m,grid,count);
+
+    // mark the remaining to 'X'
+    FOR(i,0,n-1){
+        FOR(j,0,m-1){
+            if(grid[i][j]=='.'){
+                grid[i][j]='X';
+            }
+        }
+    }
+    // remark * to be .
+    FOR(i,0,n-1){
+        FOR(j,0,m-1){
+            if(grid[i][j]=='*'){
+                grid[i][j]='.';
+            }
+            cout<<grid[i][j];
+        }
+        cout <<"\n";
+    }
     return 0;
 
 }
