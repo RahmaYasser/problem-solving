@@ -1,56 +1,47 @@
-#include <iostream>
 #include <bits/stdc++.h>
-typedef long long ll;
-using namespace std;
-#define FOR( i, S, E ) for(int i=(int)S ; i<=(int)E ; i++ )
 
-int main(){
-    int n,edges,startNode=1,to,from,cost;
-    cin >>n>>edges;
-    vector< vector<pair<int,int>>> adj(n+1); // to, cost
-    FOR(i,1,edges){
-        cin >>from>>to>>cost;
-        adj[from].push_back({to,cost});
-        adj[to].push_back({from,cost});
+using namespace std;
+
+#define FOR(i,st,end) for(int i=st;i<=end;i++)
+typedef long long ll;
+int main() {
+    ll n,m,x,y,w;
+    cin >>n>>m;
+    vector<vector<pair<ll,int>>> transportation(n); // from -> cost,to
+    vector<bool> visited(n,false);
+    FOR(i,0,m-1){
+        cin >>x>>y>>w;
+        x--;y--;
+        transportation[x].emplace_back( 2 * w,y);
+        transportation[y].emplace_back( 2 * w,x);
     }
-    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>> > pq; // cost,node
-    vector<pair<int,int>> distance(n+1,{INT_MAX,-1}); // cost,parent
-    distance[startNode] = {0,-1};
-    pq.push({0,startNode});
-    int currentNode,currentCost,childCost,childNode,total;
+    vector<ll> cost(n);
+    FOR(i,0,n-1){
+        cin >> cost[i];
+    }
+    priority_queue<pair<ll,int>,vector<pair<ll,int>>,greater<> > pq;// cost, node
+    FOR(i,0,n-1){
+        pq.emplace(cost[i],i);
+    }
+    ll node, curCost,childCost,childNode,totalSum;
     while(!pq.empty()){
-        currentNode=pq.top().second;
-        currentCost=pq.top().first;
+        curCost = pq.top().first;
+        node = pq.top().second;
         pq.pop();
-        FOR(i,0,adj[currentNode].size()-1){
-            childCost = adj[currentNode][i].second;
-            childNode = adj[currentNode][i].first;
-            if(childNode == distance[currentNode].second)continue;
-            total = currentCost+childCost;
-            if(total < distance[childNode].first){
-                distance[childNode].first = total;
-                distance[childNode].second = currentNode;
-                pq.push({total,childNode});
+        if(visited[node])continue;
+        visited[node]=true;
+        for(auto & i : transportation[node]){
+            childNode = i.second;
+            childCost = i.first;
+            totalSum= curCost + childCost;
+            if(totalSum < cost[childNode]){
+                cost[childNode] = totalSum;
+                pq.emplace(totalSum,childNode);
             }
         }
     }
-    stack<int> ans;
-    ans.push(n);
-    currentNode = distance[n].second;
-    while(currentNode!=1){
-        if(currentNode==-1) {
-            cout <<-1;
-            return 0;
-        }
-        ans.push(currentNode);
-        currentNode = distance[currentNode].second;
-    }
-    ans.push(1);
-    while(!ans.empty()){
-        cout << ans.top()<<" ";
-        ans.pop();
+    FOR(i,0,n-1){
+        cout << cost[i] <<" ";
     }
     return 0;
 }
-
-
