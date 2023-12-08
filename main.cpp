@@ -4,44 +4,51 @@ using namespace std;
 
 #define FOR(i,st,end) for(int i=st;i<=end;i++)
 typedef long long ll;
-int main() {
-    ll n,m,x,y,w;
-    cin >>n>>m;
-    vector<vector<pair<ll,int>>> transportation(n); // from -> cost,to
-    vector<bool> visited(n,false);
-    FOR(i,0,m-1){
-        cin >>x>>y>>w;
-        x--;y--;
-        transportation[x].emplace_back( 2 * w,y);
-        transportation[y].emplace_back( 2 * w,x);
-    }
-    vector<ll> cost(n);
-    FOR(i,0,n-1){
-        cin >> cost[i];
-    }
-    priority_queue<pair<ll,int>,vector<pair<ll,int>>,greater<> > pq;// cost, node
-    FOR(i,0,n-1){
-        pq.emplace(cost[i],i);
-    }
-    ll node, curCost,childCost,childNode,totalSum;
-    while(!pq.empty()){
-        curCost = pq.top().first;
-        node = pq.top().second;
-        pq.pop();
-        if(visited[node])continue;
-        visited[node]=true;
-        for(auto & i : transportation[node]){
-            childNode = i.second;
-            childCost = i.first;
-            totalSum= curCost + childCost;
-            if(totalSum < cost[childNode]){
-                cost[childNode] = totalSum;
-                pq.emplace(totalSum,childNode);
-            }
+
+const int alphabetCount = 26;
+class TrieNode{
+public:
+    TrieNode(){
+        for(int i=0;i<alphabetCount;i++){
+            children[i]= nullptr;
         }
+        isWord=false;
     }
-    FOR(i,0,n-1){
-        cout << cost[i] <<" ";
+    TrieNode* children[alphabetCount]{};
+    bool isWord;
+};
+class Trie{
+private: TrieNode* root;
+public:
+    Trie(){
+        root = new TrieNode;
     }
+    void insert(const string& s){
+        TrieNode* cur = root;
+        for(auto c : s){
+            if(cur->children[c-'a']== nullptr){
+                cur->children[c-'a'] = new TrieNode;
+            }
+            cur = cur->children[c-'a'];
+        }
+        cur->isWord = true;
+    }
+    bool search(const string& s){
+        TrieNode* cur = root;
+        for(auto c : s){
+            if(cur->children[c-'a']== nullptr){
+                return false;
+            }
+            cur = cur->children[c-'a'];
+        }
+        return cur->isWord;
+    }
+};
+int main() {
+    Trie *trie = new Trie();
+
     return 0;
 }
+
+
+
