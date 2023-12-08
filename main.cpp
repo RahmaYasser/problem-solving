@@ -4,8 +4,8 @@ using namespace std;
 
 #define FOR(i,st,end) for(int i=st;i<=end;i++)
 typedef long long ll;
-
-const int alphabetCount = 26;
+ // spoj phone list
+const int alphabetCount = 10;
 class TrieNode{
 public:
     TrieNode(){
@@ -26,27 +26,48 @@ public:
     void insert(const string& s){
         TrieNode* cur = root;
         for(auto c : s){
-            if(cur->children[c-'a']== nullptr){
-                cur->children[c-'a'] = new TrieNode;
+            if(cur->children[c-'0']== nullptr){
+                cur->children[c-'0'] = new TrieNode;
             }
-            cur = cur->children[c-'a'];
+            cur = cur->children[c-'0'];
         }
         cur->isWord = true;
     }
-    bool search(const string& s){
+    bool searchTrie(const string& s){
         TrieNode* cur = root;
-        for(auto c : s){
-            if(cur->children[c-'a']== nullptr){
-                return false;
-            }
-            cur = cur->children[c-'a'];
+        for(int i=0;i<s.size()-1;i++){
+            if(cur->children[s[i]-'0']->isWord) return false;
+            cur = cur->children[s[i]-'0'];
         }
-        return cur->isWord;
+        return true;
     }
 };
 int main() {
-    Trie *trie = new Trie();
+    int t,n;
+    string s;
+    cin >>t;
+    while(t--){
+        Trie *trie = new Trie();
+        cin >>n;
+        stack<string> st;
+        FOR(i,1,n){
+            cin >> s;
+            trie->insert(s);
+            st.push(s);
+        }
+        bool res = false;
+        while(!st.empty()){
+            s=st.top();
+            st.pop();
+            if(!trie->searchTrie(s)){
+                cout << "NO\n";
+                res = true;
+                break;
+            }
 
+        }
+        if(!res)cout <<"YES\n";
+    }
     return 0;
 }
 
