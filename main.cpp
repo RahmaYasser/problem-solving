@@ -1,72 +1,74 @@
+// spoj, ada and indexing!
 #include <bits/stdc++.h>
 
 using namespace std;
 
 #define FOR(i,st,end) for(int i=st;i<=end;i++)
 typedef long long ll;
- // spoj phone list
-const int alphabetCount = 10;
+
+const int alphabetCount = 26;
 class TrieNode{
 public:
     TrieNode(){
         for(int i=0;i<alphabetCount;i++){
-            children[i]= nullptr;
+            nodes[i]= nullptr;
         }
-        isWord=false;
+        isWord=0;
     }
-    TrieNode* children[alphabetCount]{};
-    bool isWord;
+    TrieNode* nodes[alphabetCount]{};
+    int isWord;
+    ~TrieNode(){
+        for(auto i : nodes){
+            delete i;
+        }
+    }
 };
+
 class Trie{
 private: TrieNode* root;
 public:
+
     Trie(){
         root = new TrieNode;
     }
     void insert(const string& s){
         TrieNode* cur = root;
         for(auto c : s){
-            if(cur->children[c-'0']== nullptr){
-                cur->children[c-'0'] = new TrieNode;
+            if(cur->nodes[c - 'a'] == nullptr){
+                cur->nodes[c - 'a'] = new TrieNode;
             }
-            cur = cur->children[c-'0'];
+            cur = cur->nodes[c - 'a'];
+            cur->isWord++;
         }
-        cur->isWord = true;
     }
-    bool searchTrie(const string& s){
+    int search( string& s){
         TrieNode* cur = root;
-        for(int i=0;i<s.size()-1;i++){
-            if(cur->children[s[i]-'0']->isWord) return false;
-            cur = cur->children[s[i]-'0'];
+        for(auto c : s){
+            if(cur->nodes[c - 'a'] == nullptr){
+                return 0;
+            }
+            cur = cur->nodes[c - 'a'];
         }
-        return true;
+        //cur is pointing to the nodes of the last character
+        return cur->isWord;
+    }
+    ~Trie(){
+        delete root;
     }
 };
 int main() {
-    int t,n;
+    int n,k;cin >>n>>k;
     string s;
-    cin >>t;
-    while(t--){
-        Trie *trie = new Trie();
-        cin >>n;
-        stack<string> st;
-        FOR(i,1,n){
-            cin >> s;
-            trie->insert(s);
-            st.push(s);
-        }
-        bool res = false;
-        while(!st.empty()){
-            s=st.top();
-            st.pop();
-            if(!trie->searchTrie(s)){
-                cout << "NO\n";
-                res = true;
-                break;
-            }
-
-        }
-        if(!res)cout <<"YES\n";
+    Trie *trie = new Trie;
+    FOR(i,1,n){
+        cin >>s;
+        trie->insert(s);
+    }
+    int ans;
+    FOR(i,1,k){
+        cin >>s;
+        ans = trie->search(s);
+        cout <<ans<<"\n";
     }
     return 0;
 }
