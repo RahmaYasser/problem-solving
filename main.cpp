@@ -15,13 +15,13 @@ void init(){
 }
 int parent(int node){
     if(node==pr[node])return node;
-    return parent(pr[node]);
+    return pr[node]=parent(pr[node]);
 }
 void connect(int node1,int node2){
     node1=parent(node1);
     node2=parent(node2);
     if(node1==node2) return;
-    if(sz[node2] > sz[node1]){
+    if(sz[node2] > sz[node1]){ // small to large, merge small tree to large tree
         swap(node1,node2);
     }
     sz[node1] += sz[node2];
