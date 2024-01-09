@@ -1,4 +1,4 @@
-// Codeforces 277A
+// Codeforces 1559D1
 
 
 #include <bits/stdc++.h>
@@ -13,15 +13,15 @@ class DSU{
 public:int N;
 
     explicit DSU(int n):N(n){
-        pr=vector<int>(N,-1);
-        sz=vector<int>(N,1);
-       // iota(pr.begin(), pr.end(),0);
+        pr=vector<int> (n);
+        sz=vector<int> (n);
+        iota(pr.begin(), pr.end(),0);
+        iota(sz.begin(), sz.end(),1);
     }
 
 public:vector<int> pr;
 public:vector<int> sz;
 public:int parent(int node){
-        if(pr[node]==-1)return -1;
         if(node==pr[node])return node;
         return pr[node]=parent(pr[node]);
     }
@@ -44,46 +44,31 @@ public:bool connected(int node1, int node2){
 
 
 int main() {
-    int n,m,x,node1,node2,ans=0;
-    cin >>n >>m;
-    m++;
-    DSU* dsu = new DSU(m);
-    for(int i=0;i<n;++i){
-        cin >> x;
-        if(x){
-            cin >> node1;
-            if(dsu->pr[node1]==-1)dsu->pr[node1] = node1;
-            x--;
-        }else ans++;
-        while (x--){
-            cin >> node2;
-            if(dsu->pr[node2]==-1)dsu->pr[node2] = node2;
-            dsu->connect(node1,node2);
-            node1=node2;
+    int n,m1,m2,u,v;
+    cin >>n>>m1>>m2;
+    DSU *dsu1= new DSU(n+1);
+    DSU *dsu2= new DSU(n+1);
+    FOR(i,1,m1){
+        cin >> u>>v;
+        dsu1->connect(u,v);
+    }
+    FOR(i,1,m2){
+        cin >> u>>v;
+        dsu2->connect(u,v);
+    }
+    vector<pair<int,int>> ans;
+    FOR(i,1,n){
+        FOR(j,i+1,n){
+            if(!dsu1->connected(i,j) && !dsu2->connected(i,j)){
+                dsu1->connect(i,j);
+                dsu2->connect(i,j);
+                ans.emplace_back(i,j);
+            }
         }
     }
-    int i=1;
-    while(i<m){
-        x=dsu->parent(i);
-        i++;
+    cout << ans.size()<<"\n";
+    for(auto pr : ans){
+        cout <<pr.first <<" "<<pr.second <<"\n";
     }
-
-    sort(dsu->pr.begin(),dsu->pr.end());
-    node2=0;
-    x=m;
-    for(int i=1;i<m;i++){
-        if(dsu->pr[i]!=-1){
-            node1 = dsu->pr[i];
-            x=i;
-            break;
-        }
-    }
-    for(int i=x+1;i<m;i++){
-        if(dsu->pr[i]!=node1){
-            node1=dsu->pr[i];
-            ans++;
-        }
-    }
-    cout <<ans;
     return 0;
 }
