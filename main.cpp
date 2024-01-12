@@ -1,4 +1,4 @@
-// Codeforces 1559D1
+// Codeforces 25D
 
 
 #include <bits/stdc++.h>
@@ -23,7 +23,7 @@ public:vector<int> pr;
 public:vector<int> sz;
 public:int parent(int node){
         if(node==pr[node])return node;
-        return pr[node]=parent(pr[node]);
+        return parent(pr[node]);
     }
 public:void connect(int node1,int node2){
         node1=parent(node1);
@@ -44,31 +44,31 @@ public:bool connected(int node1, int node2){
 
 
 int main() {
-    int n,m1,m2,u,v;
-    cin >>n>>m1>>m2;
-    DSU *dsu1= new DSU(n+1);
-    DSU *dsu2= new DSU(n+1);
-    FOR(i,1,m1){
-        cin >> u>>v;
-        dsu1->connect(u,v);
+    int n,x,y;cin >>n;
+    DSU *dsu= new DSU(n+1);
+    vector<pair<int,int>>closed;
+    vector<pair<int,int>>open;
+    FOR(i,1,n-1){
+        cin >>x>>y;
+        if(!dsu->connected(x,y)){
+            dsu->connect(x,y);
+        }else{
+            closed.emplace_back(x,y);
+        }
     }
-    FOR(i,1,m2){
-        cin >> u>>v;
-        dsu2->connect(u,v);
-    }
-    vector<pair<int,int>> ans;
     FOR(i,1,n){
         FOR(j,i+1,n){
-            if(!dsu1->connected(i,j) && !dsu2->connected(i,j)){
-                dsu1->connect(i,j);
-                dsu2->connect(i,j);
-                ans.emplace_back(i,j);
+            if(!dsu->connected(i,j) ){
+                dsu->connect(i,j);
+                open.emplace_back(i,j);
             }
         }
     }
-    cout << ans.size()<<"\n";
-    for(auto pr : ans){
-        cout <<pr.first <<" "<<pr.second <<"\n";
+    n=open.size();
+    cout << n <<"\n";
+    FOR(i,0,n-1){
+        cout << closed[i].first <<" " << closed[i].second <<" "<<  open[i].first <<" " << open[i].second << "\n";
     }
+
     return 0;
 }
