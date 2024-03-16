@@ -11,6 +11,8 @@ class SparseTable{
     static const int N = 1e5 + 5,P=17;
     public:int a[N];
     public: int table[P][N];
+private: int log[N];
+
     private:static int operation(int a, int b){
         return min(a,b);
     }
@@ -23,16 +25,15 @@ public:void build (int n){
                 table[p][i] = operation(table[p-1][i], table[p-1][i+(1<<(p-1))]);
             }
         }
+        log[0] = 0;
+        log[1] = 0;
+        for(int i=2;i<N;i++){
+            log[i] = log[i/2]+1;
+        }
     }
 public:int query(int l,int r){
-        int ans = 1e9;
-        for(int p=P;p>=0;p--){
-            if(r-l+1 >= (1<<p)){
-                ans = operation(ans,table[p][l]);
-                l+=(1<<p);
-            }
-        }
-        return ans;
+        int p = log[r-l+1];
+        return min(table[p][l], table[p][r - (1<<p) + 1]);
     }
 };
 
